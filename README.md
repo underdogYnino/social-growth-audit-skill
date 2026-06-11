@@ -6,6 +6,12 @@
 
 <a name="中文"></a>
 
+## 项目简介
+
+给 Claude / Cowork 用的社交媒体增长诊断技能集。核心逻辑：读取平台创作者后台的真实数据，定位漏斗断裂点，输出数据驱动的增长策略与可执行 SOP，而不是套模板给建议。
+
+适用于：账号增长停滞、内容数据好但不涨粉、不知道该发什么、想建立可持续内容节奏的创作者。目前覆盖 X（Twitter）和小红书两个平台。
+
 ## 技能列表
 
 | 技能 | 说明 | 平台 |
@@ -102,6 +108,12 @@ zip -r <name>.skill <name>/
 ---
 
 <a name="english"></a>
+
+## About
+
+A collection of Claude / Cowork skills for social media growth diagnosis. The core idea: read real data from platform creator backends, locate the exact funnel leak, and produce a data-driven growth strategy with an executable SOP — not generic advice from a template.
+
+Built for creators whose content gets engagement but not followers, who don't know what to post, or who want a sustainable content rhythm. Currently covers X (Twitter) and 小红书 (Xiaohongshu / RED).
 
 ## Skills
 
