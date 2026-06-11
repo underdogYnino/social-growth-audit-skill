@@ -119,7 +119,35 @@ A strategy nobody can execute is useless. Produce:
 
 ## Step 6 — Deliver
 
-Unless the user specifies otherwise, output the diagnosis + strategy + SOP as **both** a Markdown file and a self-contained HTML report (HTML for reading/sharing, MD for editing/version control). Read the `frontend-design` skill before building the HTML so it's not a templated default. Save a separate **data snapshot** file with the raw numbers and date, so future audits have a comparison baseline. Present the files; don't bury them in a long postamble.
+Output the diagnosis + strategy + SOP as **both** a Markdown file and an HTML report. The HTML must be built from the design system in `templates/report-template.html` — read that file before writing a single line of HTML. Save a separate data snapshot file with the raw numbers and date. Present all three files; don't bury them in a postamble.
+
+### HTML output rules (template-based)
+
+The template at `templates/report-template.html` defines the design system: CSS variables, component classes (`.card`, `.funnel`, `.fbar`, `.honest`, `.formula`, `.checklist`, `.verdict`), typography, and colour palette. **Do not rewrite or inline a new stylesheet.** Copy the `<style>` block verbatim; only the content changes.
+
+**Eight sections — all required, content replaced per account:**
+
+| # | Section | Template element | What changes |
+|---|---|---|---|
+| HERO | Header band | `<header>` | H1 = this account's one-line diagnosis; subtitle = specific bottleneck; meta = account handle, follower count, data date |
+| 01 | Core diagnosis | `.cards` + `.funnel` | Evidence cards with this account's numbers; funnel bars sized to real conversion rates |
+| 02 | Data baseline | `<table>` blocks | Per-platform account metrics + per-post breakdown |
+| 03 | Goal calibration | `.honest` boxes | Required daily pace vs. demonstrated ceiling; tiered projection |
+| 04–05 | Strategy per platform | `h3` blocks + `.formula` + `.checklist` | All tactics derived from *this* account's leak; do not recycle generic advice |
+| 06 | Daily SOP | Time-block table + weekly cadence table | Fit the user's stated time budget |
+| 07 | Metrics dashboard | Metrics table + `.checklist` review rules | North-star = the leaking-stage metric; 4–6 total |
+| 08 | Discipline | `ol.plain` | User's constraints restated as hard rules |
+
+**HERO customisation:**
+- H1 is the single-sentence diagnosis for *this* account — make it specific and honest, not a generic label.
+- The `.eyes` cat-eye element is the brand signature; keep it.
+- Adjust `--amber` / `--xhs` accent colours if the account has a strongly different aesthetic (e.g. a pure X-only audit can drop `--xhs`).
+- The `.kicker` line = `"Growth Audit / [Account Name]"`.
+
+**What must NOT be changed:**
+- The `<style>` block and CSS variable names.
+- The `secno` numbering convention (`01 / 核心诊断`, etc.).
+- The `.funnel` component — always include it for the primary leaking platform, with bars proportional to real numbers (use log compression if the gap is extreme, as shown in the template).
 
 ---
 
@@ -128,13 +156,14 @@ Unless the user specifies otherwise, output the diagnosis + strategy + SOP as **
 ALWAYS follow this skeleton, adapted to findings:
 
 ```
-1. Core diagnosis — one sentence, then the evidence (2-3 hard data points)
-2. Data baseline — the numbers, per platform, with post distribution
-3. Goal reality-check — required pace vs. ceiling; tiered projection
-4. Strategy per platform — diagnosis → fixes → content → mechanism → topics → tactics
-5. Daily SOP + weekly cadence
-6. Metrics dashboard — north star + 4-6 metrics, baseline→target, review triggers
-7. Risk & discipline — constraints as rules
+HERO — account name + one-line diagnosis + meta
+01. Core diagnosis — one sentence, then the evidence (2-3 hard data points)
+02. Data baseline — the numbers, per platform, with post distribution
+03. Goal reality-check — required pace vs. ceiling; tiered projection
+04–05. Strategy per platform — diagnosis → fixes → content → mechanism → topics → tactics
+06. Daily SOP + weekly cadence
+07. Metrics dashboard — north star + 4-6 metrics, baseline→target, review triggers
+08. Risk & discipline — constraints as rules
 ```
 
 ## Tone

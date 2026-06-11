@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>黑猫Sens · 双平台增长诊断与作战 SOP</title>
+<style>
+  :root{
+    --ink:#16151A;
+    --paper:#FBFAF8;
+    --amber:#E8A23D;
+    --amber-dim:#B97F2C;
+    --xhs:#E0314B;
+    --gray:#6E6A63;
+    --line:#E4E0D8;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:"PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.85}
+
+  /* ===== header band: the cat is watching the numbers ===== */
+  header{background:var(--ink);color:var(--paper);padding:72px 24px 64px}
+  .hwrap{max-width:920px;margin:0 auto}
+  .eyes{display:flex;gap:18px;margin-bottom:36px}
+  .eye{width:54px;height:30px;background:var(--amber);border-radius:50%;position:relative;overflow:hidden}
+  .eye::after{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:9px;height:100%;background:var(--ink);border-radius:5px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.35em;color:var(--amber);text-transform:uppercase;margin-bottom:18px}
+  h1{font-size:clamp(30px,5vw,52px);font-weight:800;letter-spacing:.01em;line-height:1.25}
+  .sub{margin-top:22px;color:#A6A29A;font-size:15px;max-width:640px}
+  .sub b{color:var(--paper);font-weight:600}
+  .meta{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--mono);font-size:12.5px;color:#85817A}
+
+  /* ===== layout ===== */
+  main{max-width:920px;margin:0 auto;padding:0 24px 96px}
+  section{margin-top:88px}
+  .secno{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--amber-dim);margin-bottom:10px}
+  h2{font-size:clamp(22px,3.4vw,32px);font-weight:800;line-height:1.3;margin-bottom:8px}
+  .secLead{color:var(--gray);max-width:680px;margin-bottom:34px}
+  h3{font-size:18px;font-weight:700;margin:42px 0 14px}
+  p{margin-bottom:16px;max-width:760px}
+  strong{font-weight:700}
+  .hl{background:linear-gradient(transparent 58%,rgba(232,162,61,.45) 58%);padding:0 2px}
+
+  /* verdict */
+  .verdict{border-left:5px solid var(--amber);padding:6px 0 6px 26px;margin:26px 0 10px}
+  .verdict p{font-size:clamp(18px,2.6vw,23px);font-weight:700;line-height:1.7;max-width:none;margin-bottom:0}
+
+  /* ===== the funnel — signature ===== */
+  .funnel{margin:46px 0 12px;border:1px solid var(--line);background:#fff;padding:38px 34px 30px}
+  .funnel .ft{font-family:var(--mono);font-size:12px;letter-spacing:.25em;color:var(--gray);margin-bottom:26px}
+  .frow{margin-bottom:22px}
+  .fbar{height:46px;background:var(--ink);display:flex;align-items:center;padding:0 16px;color:var(--paper);font-family:var(--mono);font-size:14px;white-space:nowrap;min-width:fit-content}
+  .frow:nth-child(3) .fbar{background:#4a463f}
+  .frow:nth-child(4) .fbar{background:var(--amber);color:var(--ink);font-weight:700}
+  .flabel{font-size:13px;color:var(--gray);margin-top:6px}
+  .fleak{font-family:var(--mono);font-size:12.5px;color:var(--xhs);margin:2px 0 0 4px}
+  .fnote{font-size:13.5px;color:var(--gray);border-top:1px dashed var(--line);padding-top:16px;margin-top:8px}
+
+  /* evidence cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:16px;margin:30px 0}
+  .card{border:1px solid var(--line);background:#fff;padding:24px 22px}
+  .card .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--gray);text-transform:uppercase}
+  .card .big{font-size:34px;font-weight:800;margin:10px 0 2px;font-variant-numeric:tabular-nums}
+  .card .big small{font-size:15px;font-weight:600;color:var(--gray)}
+  .card .zero{color:var(--xhs)}
+  .card p{font-size:13.5px;color:var(--gray);margin:8px 0 0;line-height:1.7}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;margin:22px 0 10px;background:#fff;font-size:14px}
+  th{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-align:left;color:var(--gray);font-weight:500;border-bottom:2px solid var(--ink);padding:10px 12px}
+  td{border-bottom:1px solid var(--line);padding:11px 12px;vertical-align:top}
+  td:first-child{font-weight:600}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .bad{color:var(--xhs);font-weight:700}
+  .good{color:var(--amber-dim);font-weight:700}
+  .tableNote{font-size:13px;color:var(--gray);margin-top:6px}
+
+  /* platform headers */
+  .platx h2::before,.platxhs h2::before{content:"";display:inline-block;width:14px;height:14px;margin-right:12px;vertical-align:baseline}
+  .platx h2::before{background:var(--ink)}
+  .platxhs h2::before{background:var(--xhs)}
+
+  /* sop blocks */
+  .formula{background:var(--ink);color:#D8D4CC;font-family:var(--mono);font-size:13.5px;line-height:2;padding:26px 28px;margin:24px 0;overflow-x:auto}
+  .formula b{color:var(--amber);font-weight:600}
+  .checklist{list-style:none;margin:18px 0}
+  .checklist li{padding:13px 0 13px 38px;border-bottom:1px dashed var(--line);position:relative}
+  .checklist li::before{content:"→";position:absolute;left:4px;color:var(--amber-dim);font-family:var(--mono);font-weight:700}
+  .checklist li b{font-weight:700}
+
+  /* honest box */
+  .honest{border:2px solid var(--ink);background:#fff;padding:30px 30px 22px;margin:30px 0}
+  .honest .ht{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--xhs);margin-bottom:14px}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);margin-top:100px;padding:34px 24px 60px}
+  footer .hwrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:12px;color:var(--gray)}
+
+  ol.plain{margin:14px 0 14px 22px}
+  ol.plain li{margin-bottom:12px}
+  @media (max-width:600px){
+    .fbar{font-size:12px;padding:0 10px}
+    td,th{padding:9px 8px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div class="eyes" aria-hidden="true"><div class="eye"></div><div class="eye"></div></div>
+    <div class="kicker">Growth Audit / 黑猫Sens</div>
+    <h1>内容在被消费，<br>你这个人没有被关注。</h1>
+    <p class="sub">X 与小红书双平台诊断 + 两周作战 SOP。两个平台是<b>同一个病</b>：曝光不缺，断裂发生在「看完帖子 → 点进主页」与「单篇价值 → 追更预期」两处。</p>
+    <div class="meta">
+      <span>诊断日 2026-06-11</span>
+      <span>X · @Axnino55 · 325 粉</span>
+      <span>小红书 · 753273435 · 12 粉</span>
+      <span>数据源：X Analytics + 小红书创作中心</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= 01 诊断 ================= -->
+<section>
+  <div class="secno">01 / 核心诊断</div>
+  <h2>三个铁证，一个病灶</h2>
+
+  <div class="cards">
+    <div class="card">
+      <div class="tag">X · 最佳帖 5/30 工作流长文</div>
+      <div class="big">222 <small>收藏</small></div>
+      <div class="big zero">6 <small>新关注</small></div>
+      <p>7.4K 曝光、16.8% 互动率，只换来 29 次主页访问。收藏完成了读者的心理闭环——「存下了 = 拥有了」，不需要关注你。</p>
+    </div>
+    <div class="card">
+      <div class="tag">小红书 · 最佳笔记 6/10 高考作文</div>
+      <div class="big">12,652 <small>曝光</small></div>
+      <div class="big zero">0 <small>涨粉</small></div>
+      <p>169 赞、157 分享、56 评论。吃瓜群众分享的是「AI 写的作文」这个梗，不是你。热点吸来的不是目标人群。</p>
+    </div>
+    <div class="card">
+      <div class="tag">X · 近 4 周漏斗</div>
+      <div class="big">0.25<small>%</small></div>
+      <p>213K 曝光中只有 531 人点进主页。瓶颈从来不在曝光量，在「看完想认识作者」的冲动——帖子没给，主页也没接住。</p>
+    </div>
+  </div>
+
+  <div class="funnel">
+    <div class="ft">X · 近 4 周关注漏斗（真实比例无法在屏幕上画出——按对数压缩）</div>
+    <div class="frow">
+      <div class="fbar" style="width:100%">213,300&nbsp;&nbsp;曝光</div>
+    </div>
+    <div class="frow">
+      <div class="fleak">↓ 99.75% 在这里流失</div>
+      <div class="fbar" style="width:38%">531&nbsp;&nbsp;主页访问</div>
+    </div>
+    <div class="frow">
+      <div class="fleak">↓ 访问 → 关注转化其实不差</div>
+      <div class="fbar" style="width:16%">~150&nbsp;&nbsp;新关注</div>
+    </div>
+    <div class="fnote">结论：修「曝光 → 主页访问」这一层（帖内钩子 + 主页承接），比再多拿 10 万曝光的回报高一个数量级。</div>
+  </div>
+
+  <h3>你的两个观察，数据都证实了</h3>
+  <ol class="plain">
+    <li><b>「深度教程长文容易涨粉」——正确。</b>Follows over time 的两个峰值日（单日 29–39 关注）正好对应 5/22 与 5/30 两篇长文。这是你目前唯一被验证的涨粉武器。</li>
+    <li><b>「评论爆帖只涨浏览不涨粉」——正确，且原因找到了。</b>十万曝光的爆帖下你是噪音；点进主页的人又看不到「关注承诺」。评论策略不是没用，是对象和姿势错了（见第 04 节修正方案）。</li>
+  </ol>
+  <p>一个需要点破的事实：5/30 最佳帖带「推广」标记，7.4K 曝光含付费成分。<span class="hl">纯自然流量基线比报表更低</span>，预期要按打折后算。</p>
+</section>
+
+<!-- ================= 02 基线 ================= -->
+<section>
+  <div class="secno">02 / 数据基线</div>
+  <h2>两本账，摊开看</h2>
+
+  <h3 class="platx">X（@Axnino55）</h3>
+  <table>
+    <tr><th>维度</th><th>数值</th><th>判读</th></tr>
+    <tr><td>粉丝 / 关注</td><td class="num">325 / 493</td><td>关注 &gt; 粉丝，主页信任信号为负</td></tr>
+    <tr><td>帖子总数</td><td class="num">576（4 月注册）</td><td>日均 ~10 条（含回复），回复日 30–45 条，<b>产出结构倒挂</b></td></tr>
+    <tr><td>近 7 天</td><td class="num">曝光 59.3K · 互动率 0.7%</td><td>曝光多但质量低——大量来自爆帖下的回复</td></tr>
+    <tr><td>近 4 周</td><td class="num">曝光 213.3K · 主页访问 531</td><td class="bad">北极星指标严重不足（123 / 周）</td></tr>
+    <tr><td>收藏 : 点赞</td><td class="num">496 : 943</td><td>收藏占比极高 → 干货被认可，但被「白嫖」</td></tr>
+  </table>
+
+  <table>
+    <tr><th>梯队</th><th>帖子</th><th>曝光</th><th>关键数据</th></tr>
+    <tr><td>T1</td><td>5/30《10分钟搭内容生产工作流》长文</td><td class="num">7.4K</td><td class="num">119 赞 / 222 藏 / 6 关注（含推广量）</td></tr>
+    <tr><td>T1</td><td>5/22 长文</td><td class="num">6.6K</td><td class="num">81 赞 / 11 转</td></tr>
+    <tr><td>T2</td><td>6/7 Styledex 产品发布 ×2</td><td class="num">4.9K + 2.3K</td><td class="num">24 赞 + 5 赞，发布即巅峰</td></tr>
+    <tr><td>T3</td><td><b>其余全部帖子</b>（新闻翻译 / 感想 / 吐槽 / 生活）</td><td class="num bad">&lt; 150</td><td>≈ 无人看见，纯消耗</td></tr>
+  </table>
+
+  <h3 class="platxhs">小红书（黑猫Sens）</h3>
+  <p>实际运营从 5/18 开始，公开笔记 7 篇，频率约 2 篇/周——对冷启动远远不够。</p>
+  <table>
+    <tr><th>笔记</th><th>日期</th><th>曝光</th><th>CTR</th><th>赞/评/藏/享</th><th>涨粉</th></tr>
+    <tr><td>最强AI模型 Fable 5 写的高考作文</td><td class="num">6/10</td><td class="num">12,652</td><td class="num good">27.1%</td><td class="num">169/56/28/157</td><td class="num bad">0</td></tr>
+    <tr><td>在海口！AI！</td><td class="num">6/7</td><td class="num">1,101</td><td class="num good">17.3%</td><td class="num">2/<b>18</b>/1/1</td><td class="num">1</td></tr>
+    <tr><td>不要再把 codex 当做聊天工具了</td><td class="num">5/18</td><td class="num">828</td><td class="num">10.5%</td><td class="num">3/0/5/0</td><td class="num">1</td></tr>
+    <tr><td>AI 做网页/app 不好看？（视频）</td><td class="num">6/8</td><td class="num">510</td><td class="num">8.5%</td><td class="num">6/1/5/1</td><td class="num">0</td></tr>
+    <tr><td>发现一个有意思的事</td><td class="num">5/27</td><td class="num">321</td><td class="num">15.0%</td><td class="num">4/2/0/0</td><td class="num">0</td></tr>
+    <tr><td>Hermes Desktop 终于来了！</td><td class="num">6/5</td><td class="num bad">19</td><td class="num">22.2%</td><td class="num">1/0/0/0</td><td class="num">0</td></tr>
+  </table>
+  <p class="tableNote">三个信号：① <b>你会做封面</b>——27.1% 的 CTR 在小红书属于优秀水平，这是既有优势；② Hermes 笔记 19 曝光 = <b>疑似营销限流</b>（发布会口吻 + 产品推广特征），bio 里 X 账号 + GitHub 链接同属站外导流敏感项；③ 提问式内容能撬动评论区（18 评论），评论是小红书算法最重的权重之一。</p>
+</section>
+
+<!-- ================= 03 可行性 ================= -->
+<section>
+  <div class="secno">03 / 目标校准</div>
+  <h2>先说实话，再谈打法</h2>
+
+  <div class="honest">
+    <div class="ht">X · 两周 1000 粉 — 概率低</div>
+    <p>需要日均 +48。你当前的天花板是长文爆发日的 29–39（还要扣每天 2–5 掉粉），平日个位数。数学上要么出一条 10 万级爆款（单帖纪录 7.4K 且含推广），要么每天都打出历史最佳。</p>
+    <table>
+      <tr><th>情景</th><th>两周后粉丝</th><th>条件</th></tr>
+      <tr><td>基线</td><td class="num">480–550</td><td>按本 SOP 执行，4 篇长文质量在线</td></tr>
+      <tr><td>良好</td><td class="num">600–750</td><td>其中 1 篇长文破 3 万曝光</td></tr>
+      <tr><td>爆款</td><td class="num">800–1000+</td><td>出现 10 万级爆款（Fable 5 热点窗口有机会）</td></tr>
+    </table>
+    <p style="margin-top:14px"><b>建议：两周目标定 550（翻倍已是激进目标），1000 作为 4–6 周目标。</b>把 1000 硬钉在两周会逼出动作变形——疯狂互关、买量——损害账号长期价值。</p>
+  </div>
+
+  <div class="honest">
+    <div class="ht">小红书 · 一周 +200 — 难但可博，比 X 现实</div>
+    <p>你已证明 12 粉的账号能拿 12K 曝光（去中心化分发对你有效）；AI 教程赛道在小红书供给不足、需求旺盛；问题只出在笔记结构不吸粉——这可以立刻修。一条结构正确的爆款带 100–300 粉在小红书是常见现象。<b>条件：本周 5–7 篇涨粉结构笔记，其中 1–2 条进入万级曝光。</b>做不到爆款则落在 +50~100。</p>
+  </div>
+</section>
+
+<!-- ================= 04 X 策略 ================= -->
+<section class="platx">
+  <div class="secno">04 / X 作战策略</div>
+  <h2>X：把火力全部交给长文</h2>
+
+  <h3>4.1 主页改造 — Day 1 完成，单次最高 ROI</h3>
+  <p>点进主页的人 3 秒内要能回答「关注他我能持续得到什么」。现在的 bio（AILab/yes工程师 • Vibecoding • AI Agent • Workflow）是标签堆砌，没有承诺。</p>
+  <div class="formula">Bio 公式 = <b>身份钩子</b> + <b>关注承诺</b> + <b>信任凭证</b><br><br>示例：把想法用 Claude Code 变成产品的人（非科班，所以教程你一定看得懂）<br>　　　｜每周三 / 日更新 AI 工作流教程 + 可白嫖小工具｜开源 Styledex ⭐</div>
+  <p>「非科班」不是短板是卖点——你的目标读者就是非科班的 AI 工具使用者。<span class="hl">「我和你一样不是程序员」比工程师人设可信度更高，且永远不会露馅。</span></p>
+  <ul class="checklist">
+    <li><b>置顶帖更换：</b>现在置顶的 Styledex 演示已被证伪（2.3K 曝光 5 赞）。换成「内容索引 thread」——首条写关注理由，后续挂 2 篇爆款长文 + Styledex + 教程预告；每发新长文就更新进去，让置顶帖成为活目录。</li>
+    <li><b>停止关注新账号</b>（互关除外），让 493:325 不再恶化。</li>
+    <li><b>时间线两周保持纯净：</b>搞钱感想、吐槽、生活照暂停。点进主页的人要看到连续、同质、可期待的输出。</li>
+  </ul>
+
+  <h3>4.2 内容结构：2 长 + 3 切 + 0 噪音</h3>
+  <table>
+    <tr><th>类型</th><th>频率</th><th>说明</th></tr>
+    <tr><td>深度长文</td><td>每周 2 篇 · 周三/周日上午</td><td>唯一被验证的涨粉武器，全部火力倾斜</td></tr>
+    <tr><td>教程切片</td><td>每周 3 条 · 晚间</td><td>从长文抽 1 个步骤做独立图文短帖，文末挂长文链接——低成本存在感 + 二次导流</td></tr>
+    <tr><td>杂讯类</td><td class="bad">两周归零</td><td>数据已证明全部 &lt;150 曝光</td></tr>
+  </table>
+
+  <h3>4.3 长文 CTA 三件套 — 把收藏党转成关注党</h3>
+  <p>5/30 那篇结尾写了「点个关注」，222 个收藏者只有 6 个照做。修正：</p>
+  <ol class="plain">
+    <li><b>预告下一篇：</b>「关注我，<u>下周三</u>更新《具体标题》」——把关注从客套变成追更动作。</li>
+    <li><b>中段插一次软 CTA：</b>读到结尾才看到 CTA 的人，已经在收藏离开的路上了。</li>
+    <li><b>评论区钩子：</b>发文 1 小时内自己置顶评论——「本文配套 prompt 打包：关注后私信『工作流』自取」。</li>
+  </ol>
+
+  <h3>4.4 选题库 — 半成品恰好够用</h3>
+  <p>过程文比成品文更适合现在的你，build in public 的本质就是卖过程。两周 4 篇，全部绑定 Fable 5 热点关键词，吃搜索 + 话题双流量：</p>
+  <ul class="checklist">
+    <li>《非程序员用 Claude Code 的第一周：我踩的 5 个坑和 3 个开窍瞬间》— 新手向，「非科班」即差异化</li>
+    <li>《手把手：给你的项目写第一份 CLAUDE.md / AGENTS.md（附可抄模板）》— 5/30 爆文的直接衍生，需求已验证</li>
+    <li>《我用 Fable 5 重构了 Styledex：半成品也敢 build in public 的工作流》— 产品 + 教程杂交，给 Styledex 二次曝光</li>
+    <li>《写给想入坑 vibecoding 的普通人：从 0 到第一个能用的工具》— 面向最大基数的新手盘</li>
+  </ul>
+
+  <h3>4.5 评论策略修正 — 你的发现是对的，姿势要改</h3>
+  <table>
+    <tr><th>旧姿势（已证伪）</th><th>新姿势</th></tr>
+    <tr><td>在十万级爆帖下评论</td><td>盯 <b>5k–5万粉中V</b> 的新帖，发出 30 分钟内出现</td></tr>
+    <tr><td>夸 / 附和 / 抖机灵</td><td><b>补充型评论</b>：补一个对方没讲的工具、数据、坑——目标是让博主本人回复或点赞</td></tr>
+    <tr><td>随缘刷到</td><td>建 X List 收 10–15 个中文 AI 圈中V，每天午间固定巡逻 20 分钟</td></tr>
+  </table>
+  <p class="tableNote">逻辑：中V新帖下的优质补充评论会被博主互动顶到前排，他的粉丝看到「这人懂行」→ 点进主页 → 新 bio 和置顶帖完成转化。爆帖下你永远排不到前排。互关贴继续用，但认清性质：互关粉是凑基数的数字不是资产，控制在新增的 30% 以内。</p>
+</section>
+
+<!-- ================= 05 XHS 策略 ================= -->
+<section class="platxhs">
+  <div class="secno">05 / 小红书作战策略</div>
+  <h2>小红书：你只缺最后一环</h2>
+  <p class="secLead">你已经有高 CTR 封面能力 + 教程内容能力。缺的是<b>追更钩子</b>——单篇再爆都是 0 涨粉，这一点已经用 12K 曝光的代价验证过了。</p>
+
+  <h3>5.1 先排雷（Day 1，比发笔记优先）</h3>
+  <ul class="checklist">
+    <li><b>Bio 去掉「X:@Axnino55」</b>——站外导流是小红书最敏感的红线之一，影响整个账号权重而非单篇。GitHub 链接先保留观察，下篇笔记曝光仍异常则一并去掉。</li>
+    <li><b>产品笔记禁用发布会口吻</b>（「XX 终于来了！」= 19 曝光的教训），改第一人称分享体：「我给自己做了个小工具，解决了 XX 问题」。</li>
+    <li><b>AIGC 内容按平台要求主动标注</b>，教程图文用自己的真实截图最安全。</li>
+  </ul>
+
+  <h3>5.2 涨粉笔记公式</h3>
+  <p>小红书涨粉的核心机制 = <span class="hl">系列化</span>。关注的动机不是「这篇好」，而是「我怕错过下一篇」。</p>
+  <div class="formula">封面　　= 大字报风格（你已会）+ 系列角标「AI 普通人逆袭 <b>Day N</b>」<br>标题　　= 痛点开头（"还在手打提示词？" / "AI 做的网页丑哭了？"）<br>正文图　= 3–6 张步骤图，每张一个动作，小白能照抄<br>末图　　= 固定版式「<b>下一篇：《具体标题》｜关注不迷路</b>」<br>文案　　= ≤300 字口语化，结尾提问引导评论<br>置顶评论= 补充干货（"完整 prompt 在这"）+ 引导关注</div>
+
+  <h3>5.3 一周排期 — 冲 +200 的具体打法</h3>
+  <table>
+    <tr><th>天</th><th>笔记</th><th>意图</th></tr>
+    <tr><td>D1</td><td>排雷 + 《AI 普通人逆袭 Day 1：3 句话让 Claude 给你做个网页》</td><td>系列首篇，钩子最强</td></tr>
+    <tr><td>D2</td><td>《高考作文那条爆了，但我想教你自己写出来（完整 prompt）》</td><td><b>热点余温 + 教程杂交</b>——把 12K 吃瓜流量二次收割成粉，要快</td></tr>
+    <tr><td>D3</td><td>《Day 2：AI 做的网页太丑？一张图治好》</td><td>系列 + Styledex 软植入（分享体口吻）</td></tr>
+    <tr><td>D4</td><td>《我每周用 AI 省 10 小时的 3 个工作流》</td><td>收藏向爆款体质，末图强钩子</td></tr>
+    <tr><td>D5</td><td>《Day 3：写好你的第一个 AGENTS.md》</td><td>系列推进</td></tr>
+    <tr><td>D6</td><td>《普通人学 AI 最大的误区？（提问式）》</td><td>评论撬动型——复制「在海口」18 评论的成功</td></tr>
+    <tr><td>D7</td><td>数据复盘 + 最佳笔记角度做变体</td><td>赢家放大</td></tr>
+  </table>
+  <ul class="checklist">
+    <li>发布时间 12:00–13:00 或 19:00–21:00；发布后 <b>1 小时内回复所有评论</b>（黄金发酵期直接喂算法）。</li>
+    <li>每篇 3–5 个精准话题：#AI教程 #Claude #普通人学AI #效率工具 #vibecoding。</li>
+  </ul>
+</section>
+
+<!-- ================= 06 SOP ================= -->
+<section>
+  <div class="secno">06 / 每日 SOP</div>
+  <h2>2.5–3.5 小时 / 天，刚好匹配你的预算</h2>
+  <table>
+    <tr><th>时段</th><th>时长</th><th>动作</th></tr>
+    <tr><td>早</td><td class="num">30 min</td><td>发小红书笔记（前一晚做好）→ 回复两平台隔夜评论 → X 发今日切片（切片日）</td></tr>
+    <tr><td>午</td><td class="num">20 min</td><td>X 中V列表巡逻，发 3–5 条补充型评论</td></tr>
+    <tr><td>晚</td><td class="num">90–120 min</td><td>内容生产（见周节奏）→ 睡前回复一轮评论</td></tr>
+    <tr><td>周日加项</td><td class="num">30 min</td><td>数据复盘（第 07 节指标表），定下周选题</td></tr>
+  </table>
+  <table>
+    <tr><th>周节奏</th><th>晚间生产内容</th></tr>
+    <tr><td>周一 / 周四</td><td>写 X 长文——用你自己那套 Obsidian 工作流，吃自己的狗粮，过程本身又是素材</td></tr>
+    <tr><td>周二 / 周五</td><td>批量做小红书笔记图（一次 2–3 篇）</td></tr>
+    <tr><td>周三 / 周六</td><td>做 X 切片 + 机动</td></tr>
+    <tr><td>周日</td><td>复盘 + 下周选题</td></tr>
+  </table>
+  <p><b>红线提醒：</b>两周内不发与主线无关的内容。每次想发感想 / 吐槽，把它记进 Topics/ 选题库——大概率能改写成一篇教程的 hook。</p>
+</section>
+
+<!-- ================= 07 指标 ================= -->
+<section>
+  <div class="secno">07 / 指标看板</div>
+  <h2>每周日只看这几个数</h2>
+  <table>
+    <tr><th>平台</th><th>指标</th><th>当前基线</th><th>两周目标</th><th>为什么是它</th></tr>
+    <tr><td>X</td><td><b>主页访问 / 周</b></td><td class="num">123</td><td class="num good">400+</td><td>北极星。曝光不缺，缺进主页的人</td></tr>
+    <tr><td>X</td><td>单篇长文新增关注</td><td class="num">~6</td><td class="num good">30+</td><td>验证 CTA 三件套</td></tr>
+    <tr><td>X</td><td>收藏 : 关注比</td><td class="num">37 : 1</td><td class="num good">&lt; 10 : 1</td><td>收藏党转化率</td></tr>
+    <tr><td>XHS</td><td>涨粉 / 篇</td><td class="num">~0.3</td><td class="num good">10+</td><td>验证系列化钩子</td></tr>
+    <tr><td>XHS</td><td>万级曝光笔记</td><td class="num">1 篇（吸粉 0）</td><td class="num good">1–2 篇（吸粉 100+）</td><td>爆款质量而非数量</td></tr>
+    <tr><td>XHS</td><td>笔记 CTR</td><td class="num">8–27%</td><td class="num good">维持 &gt;15%</td><td>优势项，别掉</td></tr>
+  </table>
+  <h3>复盘规则</h3>
+  <ul class="checklist">
+    <li>某类内容连续 2 篇低于基线 → <b>砍掉该类型</b>，不恋战。</li>
+    <li>某篇超基线 3 倍 → <b>48 小时内做变体</b>（同角度换案例 / 同案例换角度）。</li>
+    <li>X 长文发布 24h 主页访问无增长 → 检查 <b>hook 前两行</b>，而不是怀疑选题。</li>
+  </ul>
+</section>
+
+<!-- ================= 08 纪律 ================= -->
+<section>
+  <div class="secno">08 / 风险与纪律</div>
+  <h2>不变形，才能复利</h2>
+  <ol class="plain">
+    <li><b>不买粉、不刷量。</b>你的下游目标（小红书商单、X 影响力）都依赖真实画像，假粉是负资产。</li>
+    <li><b>互关控制在新增 30% 以内</b>，且只互关同赛道账号。</li>
+    <li><b>小红书合规：</b>不站外导流、产品笔记用分享体、AIGC 按要求标注。商单需 ≥1000 粉开通蒲公英，本阶段不做变现动作。</li>
+    <li><b>人设安全区：</b>「不是真程序员」反着用——所有教程从非科班视角写，既是差异化也是免露馅保险。唯一雷区：不写底层原理的断言式内容，遇到用「我的理解是…欢迎指正」句式。</li>
+    <li><b>两周后无论结果，回到指标表复盘再定下一周期。</b>涨粉是复利游戏，单周期赌输赢必然动作变形。</li>
+  </ol>
+</section>
+
+</main>
+
+<footer>
+  <div class="hwrap">
+    <span>黑猫Sens · Growth Audit & SOP</span>
+    <span>数据实查 2026-06-11 · X 7D/4W + 小红书笔记全量</span>
+  </div>
+</footer>
+
+</body>
+</html>
