@@ -14,7 +14,13 @@
 
 ## 安装
 
-**方式一：一键下载**
+**方式一：直接让 Agent 安装**
+
+在 Cowork 会话中说：
+
+> 帮我安装这个 skill：https://github.com/underdogYnino/social-growth-audit-skill.git
+
+**方式二：一键下载**
 
 ```bash
 curl -L -o social-growth-audit.skill \
@@ -23,7 +29,7 @@ curl -L -o social-growth-audit.skill \
 
 下载后将 `social-growth-audit.skill` 拖入 **Cowork → 设置 → 能力 → 安装插件**。
 
-**方式二：从源码打包**
+**方式三：从源码打包**
 
 ```bash
 git clone https://github.com/underdogYnino/social-growth-audit-skill.git
@@ -48,9 +54,13 @@ zip -r social-growth-audit.skill social-growth-audit/
 
 安装后在 Cowork 新会话中说：
 
-> 帮我做一次 X 账号诊断，账号：@Axnino55，目标：两周从 325 粉涨到 1000 粉
+> 帮我做一次 X 账号诊断，账号：@xxxxxx，目标：两周涨到 xxxx 粉
 
-> 帮我做一次小红书账号诊断，账号：753273435，目标：一周涨 200 粉
+> 帮我做一次小红书账号诊断，账号：xxxxxx，目标：一周涨 xxx 粉
+
+如果已在本机 Chrome 登录账号，也可以直接提供主页 URL 加速诊断：
+
+> 帮我做一次 X 账号诊断，我已在本地 Chrome 登录相应账号，账号个人资料页：「https://x.com/xxxxxx」，目标：两周涨到 xxxx 粉
 
 输出：Markdown 报告 + HTML 报告 + 数据快照文件。HTML 报告遵循固定的 8 板块设计系统（见 `social-growth-audit/templates/report-template.html`）。
 
@@ -101,7 +111,13 @@ zip -r <name>.skill <name>/
 
 ## Installation
 
-**Option 1 — One-line download**
+**Option 1 — Ask the Agent**
+
+In a Cowork session, say:
+
+> Install this skill for me: https://github.com/underdogYnino/social-growth-audit-skill.git
+
+**Option 2 — One-line download**
 
 ```bash
 curl -L -o social-growth-audit.skill \
@@ -110,7 +126,7 @@ curl -L -o social-growth-audit.skill \
 
 Drag `social-growth-audit.skill` into **Cowork → Settings → Capabilities → Install Plugin**.
 
-**Option 2 — Build from source**
+**Option 3 — Build from source**
 
 ```bash
 git clone https://github.com/underdogYnino/social-growth-audit-skill.git
@@ -135,9 +151,13 @@ Front-end post counts can't tell you where the funnel leaks. The skill prompts y
 
 After installing, open a new Cowork session and say:
 
-> Run a growth audit for my X account @Axnino55, goal: 325 → 1000 followers in 2 weeks
+> Run a growth audit for my X account @xxxxxx, goal: reach xxxx followers in 2 weeks
 
-> Run a growth audit for my 小红书 account 753273435, goal: +200 followers in 1 week
+> Run a growth audit for my 小红书 account xxxxxx, goal: +xxx followers in 1 week
+
+If you're already logged into the platform in Chrome, you can include the profile URL to speed things up:
+
+> Run a growth audit for my X account. I'm already logged into Chrome. Profile page:「https://x.com/xxxxxx」. Goal: xxxx followers in 2 weeks
 
 Outputs: Markdown report + HTML report + data snapshot file.
 
