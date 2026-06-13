@@ -55,6 +55,8 @@ Collect at two levels:
 
 Capture the actual numbers into a data snapshot you can cite later. If you have browser tools, navigate and read the backend directly; if not, ask the user to paste screenshots or numbers. **Never invent a number** — if a metric is unavailable, say so and diagnose around the gap.
 
+For X/Twitter audits, optional public context can come from TweetClaw or another X/Twitter export when each item includes a public post URL, author handle, timestamp, capture date, and observed engagement. Use this only to inspect hooks, reply context, quote context, topic fit, and audience language. It does **not** replace X Analytics funnel metrics and it does **not** authorize posting, replying, DMs, media uploads, monitors, webhooks, giveaways, or private-account access.
+
 One trap: posts boosted/promoted inflate the natural baseline. Flag any promoted post and discount it when setting expectations.
 
 ---

@@ -9,6 +9,18 @@ Where the data lives, how to read it, and X-specific growth levers. Pair this wi
 - **Content tab**: per-post table sortable by Impressions. Each post → click for Post Analytics: impressions, the full engagement breakdown, **profile visits from that post**, **new follows from that post**, bookmarks, "First 48 hours" activity curve, audience insights.
 - Per-post analytics also reachable from the post's "View post analytics" link.
 
+## Public context packets
+
+Use backend analytics for the funnel. Public X/Twitter exports are supporting context only. If the user provides a TweetClaw packet or another X/Twitter export, require each item to include:
+
+- Public post URL or search query
+- Author handle and post text
+- Timestamp plus capture date
+- Reply, quote, thread, or profile context when available
+- Observed engagement counts, labeled as public observations
+
+Use these packets to compare hooks, opening lines, reply culture, quote context, and audience language against the backend winners and losers. Do not use them as proof of impression, profile-visit, or follow conversion, and do not let the skill post, reply, DM, upload media, start monitors, create webhooks, run giveaway draws, or fetch private account data.
+
 ## Mapping metrics to the funnel
 
 | Funnel stage | X metric | Where |
