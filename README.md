@@ -1,10 +1,10 @@
 # 社交媒体运营技能库 · SocialMediaOps Skills
 
-[中文](#中文) | [English](#english)
+[中文](#chinese) | [English](#english)
 
 ---
 
-<a name="中文"></a>
+<a name="chinese"></a>
 
 ## 项目简介
 
